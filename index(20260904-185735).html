@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STAT 201 - Exam One Questions</title>
+
+  <style>
+    :root {
+      --ut-orange: #FF8200;
+      --ut-smokey: #58595B;
+      --ut-light: #F6F6F6;
+      --ut-white: #FFFFFF;
+      --ut-border: #D9D9D9;
+      --ut-dark: #2D2D2D;
+      --ut-red: #A72608;
+      --ut-green: #2E7D32;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--ut-light);
+      color: var(--ut-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .ut-header {
+      background: var(--ut-white);
+      border-top: 8px solid var(--ut-orange);
+      border-bottom: 1px solid var(--ut-border);
+      padding: 28px 34px 24px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .ut-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .ut-subtitle {
+      margin: 8px 0 0;
+      color: var(--ut-smokey);
+      font-size: 16px;
+    }
+
+    .verification-code {
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      min-width: 150px;
+      text-align: right;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 14px;
+      letter-spacing: 5px;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .code-dot {
+      display: inline-block;
+      width: 7px;
+      text-align: center;
+      color: #D5D5D5;
+    }
+
+    .code-dot.on {
+      color: #444444;
+      font-weight: 700;
+    }
+
+    .main-wrap {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 36px 22px 54px;
+    }
+
+    .card {
+      background: var(--ut-white);
+      border: 1px solid var(--ut-border);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    }
+
+    .intro-card {
+      padding: 34px;
+    }
+
+    .intro-copy {
+      font-size: 20px;
+      line-height: 1.6;
+      margin: 0 0 26px;
+    }
+
+    .accessibility-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .accessibility-options {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .time-option {
+      position: relative;
+    }
+
+    .time-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .time-option label {
+      display: block;
+      border: 2px solid var(--ut-border);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 800;
+      background: #fff;
+      transition: all 0.15s ease;
+      min-height: 82px;
+    }
+
+    .time-option label span {
+      display: block;
+      margin-top: 5px;
+      color: var(--ut-smokey);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .time-option input:checked + label {
+      border-color: var(--ut-orange);
+      box-shadow: 0 0 0 3px rgba(255,130,0,0.12);
+      background: #FFF9F3;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-ut {
+      appearance: none;
+      border: none;
+      border-radius: 10px;
+      background: var(--ut-orange);
+      color: white;
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .btn-ut:hover,
+    .btn-ut:focus {
+      background: #E87500;
+      outline: none;
+    }
+
+    .btn-ut:active {
+      transform: translateY(1px);
+    }
+
+    .exam-card {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--ut-smokey);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 20px;
+    }
+
+    .question-panel {
+      border-left: 8px solid var(--ut-orange);
+      border-radius: 12px;
+      background: #fff;
+      border-top: 1px solid var(--ut-border);
+      border-right: 1px solid var(--ut-border);
+      border-bottom: 1px solid var(--ut-border);
+      padding: 28px;
+      text-align: left;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .question-label {
+      color: var(--ut-orange);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.45;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .timer-wrap {
+      margin-top: 26px;
+    }
+
+    .timer-label {
+      color: var(--ut-smokey);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .countdown {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .countdown.warning {
+      color: var(--ut-red);
+    }
+
+    .break-card {
+      padding: 42px 28px;
+      text-align: center;
+    }
+
+    .break-title {
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 900;
+      margin: 0 0 12px;
+      color: var(--ut-orange);
+    }
+
+    .break-copy {
+      margin: 0 0 26px;
+      color: var(--ut-smokey);
+      font-size: 18px;
+    }
+
+    .complete-card {
+      padding: 54px 30px;
+      text-align: center;
+    }
+
+    .complete-icon {
+      font-size: 64px;
+      margin-bottom: 14px;
+    }
+
+    .complete-title {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 900;
+    }
+
+    .complete-copy {
+      margin-top: 14px;
+      color: var(--ut-smokey);
+      font-size: 18px;
+    }
+
+    .generated-line {
+      margin-top: 22px;
+      color: var(--ut-smokey);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .accessibility-options {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .ut-header {
+        padding: 38px 20px 20px;
+      }
+
+      .verification-code {
+        top: 9px;
+        right: 10px;
+        font-size: 14px;
+        letter-spacing: 3px;
+      }
+
+      .main-wrap {
+        padding-top: 24px;
+      }
+
+      .intro-card,
+      .exam-card {
+        padding: 22px;
+      }
+
+      .accessibility-options {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .question-panel {
+        min-height: 260px;
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="ut-header">
+    <div class="verification-code" id="verificationCode" aria-hidden="true"></div>
+    <h1 class="ut-title">STAT 201 - Exam One Questions</h1>
+    <p class="ut-subtitle">Oral exam question generator</p>
+  </header>
+
+  <main class="main-wrap">
+
+    <section id="introScreen" class="card intro-card">
+      <p class="intro-copy">
+        This test will have you explain 3 statistical topics. You'll have 2 minutes to explain each topic.
+        The questions will appear one after another with a 15 second break between questions.
+        Make sure to click the proper accessibility setting if you have a registered accessibility.
+      </p>
+
+      <h2 class="accessibility-title">Accessibility timing</h2>
+
+      <div class="accessibility-options" role="radiogroup" aria-label="Accessibility timing">
+        <div class="time-option">
+          <input type="radio" id="timeStandard" name="timeSetting" value="1" checked />
+          <label for="timeStandard">
+            Standard Time
+            <span>2:00 per question</span>
+          </label>
+        </div>
+
+        <div class="time-option">
+          <input type="radio" id="time25" name="timeSetting" value="1.25" />
+          <label for="time25">
+            25% Extra Time
+            <span>2:30 per question</span>
+          </label>
+        </div>
+
+        <div class="time-option">
+          <input type="radio" id="time50" name="timeSetting" value="1.5" />
+          <label for="time50">
+            50% Extra Time
+            <span>3:00 per question</span>
+          </label>
+        </div>
+
+        <div class="time-option">
+          <input type="radio" id="time100" name="timeSetting" value="2" />
+          <label for="time100">
+            100% Extra Time
+            <span>4:00 per question</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="startTestButton" class="btn-ut">Take the Test</button>
+      </div>
+    </section>
+
+    <section id="examScreen" class="card exam-card hidden">
+      <div class="progress-row">
+        <div id="questionProgress">Question 1 of 3</div>
+        <div id="timeSettingDisplay">Standard Time</div>
+      </div>
+
+      <div class="question-panel">
+        <div id="questionLabel" class="question-label">Question 1</div>
+        <p id="questionText" class="question-text"></p>
+      </div>
+
+      <div class="timer-wrap">
+        <div class="timer-label">Time Remaining</div>
+        <div id="questionCountdown" class="countdown">02:00</div>
+      </div>
+    </section>
+
+    <section id="breakScreen" class="card break-card hidden">
+      <h2 class="break-title">15 Second Break</h2>
+      <p class="break-copy">Get ready for the next question.</p>
+      <div class="timer-label">Break Remaining</div>
+      <div id="breakCountdown" class="countdown">00:15</div>
+    </section>
+
+    <section id="completeScreen" class="card complete-card hidden">
+      <div class="complete-icon">✓</div>
+      <h2 class="complete-title">Thank you for taking the STAT 201 oral exam.</h2>
+      <p class="complete-copy">Your three-question session is complete.</p>
+    </section>
+
+    <div class="generated-line" id="generatedLine"></div>
+
+  </main>
+
+  <script>
+    // ------------------------------------------------------------
+    // STAT 201 Exam One Question Pool
+    // Limited to Chapters 1-6
+    // ------------------------------------------------------------
+
+    const questionPool = [
+      "Explain the difference between a population and a sample. Why do statisticians use random sampling when they want to learn about a population?",
+      "Explain what it means for data to have context. Why can a number by itself be misleading or meaningless?",
+      "Explain what it means for events to happen at random. How is randomness useful in statistics?",
+      "Explain the difference between a categorical variable and a quantitative variable. Give an example of each and explain why each example belongs in that category.",
+      "Explain the difference between a frequency table and a relative frequency table. When might a relative frequency be more useful?",
+      "For one categorical variable, explain what a bar chart communicates and what the height of each bar represents.",
+      "When describing the distribution of one quantitative variable, explain what you should discuss about its shape, center, spread, and unusual features.",
+      "Explain the difference between the mean and the median. Describe what can happen to each when a distribution is strongly skewed or contains an outlier.",
+      "Explain what the standard deviation measures and how it differs from the IQR as a measure of spread.",
+      "Explain what a contingency table is and what information is found in its cells and margins.",
+      "Explain the difference between a marginal distribution and a conditional distribution in a contingency table.",
+      "Explain what it means for two categorical variables to be independent. How can conditional distributions help you decide whether an association may be present?",
+      "Explain what a segmented bar chart or mosaic plot can reveal about the relationship between two categorical variables.",
+      "Explain how side-by-side boxplots can be used to compare the distributions of a quantitative variable across groups. What features would you compare?",
+      "Explain why outliers deserve special attention. What should you consider before deciding whether an outlier should be corrected, removed, or retained?",
+      "Explain what a z-score tells you about an individual observation. What does a positive z-score mean? What does a negative z-score mean?",
+      "Explain how standardizing with z-scores makes it possible to compare observations measured on different scales.",
+      "Explain the 68-95-99.7 Rule for a Normal model and what it tells you about observations within one, two, and three standard deviations of the mean.",
+      "When examining a scatterplot of two quantitative variables, explain the four main features you should describe: direction, form, strength, and unusual features.",
+      "Explain what the correlation coefficient r tells you. Include its possible range, what its sign means, what its magnitude means, and why correlation does not prove causation."
+    ];
+
+    const introScreen = document.getElementById("introScreen");
+    const examScreen = document.getElementById("examScreen");
+    const breakScreen = document.getElementById("breakScreen");
+    const completeScreen = document.getElementById("completeScreen");
+    const startTestButton = document.getElementById("startTestButton");
+
+    const questionProgress = document.getElementById("questionProgress");
+    const timeSettingDisplay = document.getElementById("timeSettingDisplay");
+    const questionLabel = document.getElementById("questionLabel");
+    const questionText = document.getElementById("questionText");
+    const questionCountdown = document.getElementById("questionCountdown");
+    const breakCountdown = document.getElementById("breakCountdown");
+    const generatedLine = document.getElementById("generatedLine");
+    const verificationCode = document.getElementById("verificationCode");
+
+    let selectedQuestions = [];
+    let currentQuestionIndex = 0;
+    let questionSeconds = 120;
+    let activeInterval = null;
+
+    function hideAllScreens() {
+      introScreen.classList.add("hidden");
+      examScreen.classList.add("hidden");
+      breakScreen.classList.add("hidden");
+      completeScreen.classList.add("hidden");
+    }
+
+    function getThreeRandomQuestions() {
+      const indexes = [...Array(questionPool.length).keys()];
+
+      for (let i = indexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+      }
+
+      return indexes.slice(0, 3).map(index => questionPool[index]);
+    }
+
+    function formatSeconds(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+
+      return (
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(seconds).padStart(2, "0")
+      );
+    }
+
+    function clearActiveInterval() {
+      if (activeInterval !== null) {
+        clearInterval(activeInterval);
+        activeInterval = null;
+      }
+    }
+
+    function getSelectedTiming() {
+      const selected = document.querySelector('input[name="timeSetting"]:checked');
+      const multiplier = Number(selected.value);
+
+      let label = "Standard Time";
+      if (multiplier === 1.25) label = "25% Extra Time";
+      if (multiplier === 1.5) label = "50% Extra Time";
+      if (multiplier === 2) label = "100% Extra Time";
+
+      return {
+        multiplier,
+        label,
+        seconds: Math.round(120 * multiplier)
+      };
+    }
+
+    function startQuestion(index) {
+      clearActiveInterval();
+      currentQuestionIndex = index;
+
+      hideAllScreens();
+      examScreen.classList.remove("hidden");
+
+      questionProgress.textContent = `Question ${index + 1} of 3`;
+      questionLabel.textContent = `Question ${index + 1}`;
+      questionText.textContent = selectedQuestions[index];
+
+      let secondsLeft = questionSeconds;
+      questionCountdown.classList.remove("warning");
+      questionCountdown.textContent = formatSeconds(secondsLeft);
+
+      activeInterval = setInterval(() => {
+        secondsLeft -= 1;
+        questionCountdown.textContent = formatSeconds(Math.max(secondsLeft, 0));
+
+        if (secondsLeft <= 15) {
+          questionCountdown.classList.add("warning");
+        }
+
+        if (secondsLeft <= 0) {
+          clearActiveInterval();
+
+          if (currentQuestionIndex < 2) {
+            startBreak(currentQuestionIndex + 1);
+          } else {
+            finishExam();
+          }
+        }
+      }, 1000);
+    }
+
+    function startBreak(nextQuestionIndex) {
+      clearActiveInterval();
+      hideAllScreens();
+      breakScreen.classList.remove("hidden");
+
+      let secondsLeft = 15;
+      breakCountdown.classList.remove("warning");
+      breakCountdown.textContent = formatSeconds(secondsLeft);
+
+      activeInterval = setInterval(() => {
+        secondsLeft -= 1;
+        breakCountdown.textContent = formatSeconds(Math.max(secondsLeft, 0));
+
+        if (secondsLeft <= 5) {
+          breakCountdown.classList.add("warning");
+        }
+
+        if (secondsLeft <= 0) {
+          clearActiveInterval();
+          startQuestion(nextQuestionIndex);
+        }
+      }, 1000);
+    }
+
+    function finishExam() {
+      clearActiveInterval();
+      hideAllScreens();
+      completeScreen.classList.remove("hidden");
+    }
+
+    function renderGeneratedTime(date) {
+      const formatted = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(date);
+
+      generatedLine.textContent = `Questions Generated ${formatted} ET`;
+    }
+
+    function renderVerificationDots(date) {
+      const easternParts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        hour12: false,
+        second: "2-digit",
+        minute: "2-digit",
+        hour: "2-digit",
+        day: "2-digit"
+      }).formatToParts(date);
+
+      const partMap = {};
+      easternParts.forEach(part => {
+        if (part.type !== "literal") partMap[part.type] = Number(part.value);
+      });
+
+      const second = partMap.second;
+      const minute = partMap.minute;
+      const hour = partMap.hour;
+      const day = partMap.day;
+
+      const bits = [
+        second % 2 === 0,
+        second >= 10,
+        second >= 20,
+        second >= 30,
+        second >= 40,
+        second >= 50,
+        minute % 2 === 0,
+        minute >= 30,
+        hour % 2 === 0,
+        day % 2 === 0
+      ];
+
+      verificationCode.innerHTML = "";
+
+      bits.forEach(isOn => {
+        const dot = document.createElement("span");
+        dot.className = isOn ? "code-dot on" : "code-dot";
+        dot.textContent = ".";
+        verificationCode.appendChild(dot);
+      });
+    }
+
+    startTestButton.addEventListener("click", () => {
+      const timing = getSelectedTiming();
+      const generatedAt = new Date();
+
+      selectedQuestions = getThreeRandomQuestions();
+      currentQuestionIndex = 0;
+      questionSeconds = timing.seconds;
+
+      timeSettingDisplay.textContent = timing.label;
+
+      renderGeneratedTime(generatedAt);
+      renderVerificationDots(generatedAt);
+
+      startQuestion(0);
+    });
+  </script>
+
+</body>
+</html>
